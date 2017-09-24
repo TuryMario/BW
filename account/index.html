@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+        <!-- Firebase configuration -->
+        <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyDBGUjJUeQBWwkT8ssE0Q2SB-c692D5GWQ",
+            authDomain: "braworld-e1ab5.firebaseapp.com",
+            databaseURL: "https://braworld-e1ab5.firebaseio.com",
+            projectId: "braworld-e1ab5",
+            storageBucket: "braworld-e1ab5.appspot.com",
+            messagingSenderId: "475788712099"
+          };
+          firebase.initializeApp(config);
+        </script>
+    </head>
+
+    <body>
+
+		<!-- Top menu -->
+		<nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
+			<div class="container">
+				<div class="collapse navbar-collapse" id="top-navbar-1">
+					<ul class="nav navbar-nav navbar-right"></ul>
+				</div>
+			</div>
+		</nav>
+
+        <!-- Top content -->
+        <div class="top-content">
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 text">
+                        <h1><strong>Bra World</strong></h1>
+                        <div class="description">
+                       	    <p>
+                                Welcome User
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
+                    		<h3 style="color: #fff">SignIn</h3>
+                            <div class="f1-steps">
+                                <div class="f1-step active">
+                                    <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                                    <p>Account</p>
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-email">Email</label>
+                                    <input id="email" type="email" name="email" placeholder="Email..." class="f1-email form-control" id="f1-email">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-password">Password</label>
+                                    <input id="pass" type="password" name="pass" placeholder="Password..." class="f1-password form-control" id="f1-password">
+                                </div>
+
+                                <div class="f1-buttons">
+                                    <button id="signin" name="signins" class="btn btn-submit">SignIn</button>
+                                </div>
+                    </div>
+                </div>
+                    
+            </div>
+        </div>
+
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+        
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript">
+            const signin = document.getElementById("signin");
+            var user = firebase.auth().currentUser;
+
+
+            signin.addEventListener('click', e => {
+                const email = document.getElementById("email").value;
+                const pass = document.getElementById("pass").value;
+                const auth = firebase.auth();
+                //signin
+                const promise = auth.signInWithEmailAndPassword(email,pass);
+                promise.catch(e => console.log(e, message));
+            });
+
+          //Firebase real time listener
+          firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+            // redirect to dashboard
+              console.log(user.email);
+            window.location.replace("http://localhost/bw/pos");
+              // alert("Successfully SignIn"); 
+              // location.href="http://audience.adcorp.network/AdCorp/dashboard.html"
+            } else {
+           //alert("Check your email and password!"); location.href="signin.html"
+           console.log("no one");
+            }
+          });
+
+
+            
+
+        </script>
+
+    </body>
+
+</html>

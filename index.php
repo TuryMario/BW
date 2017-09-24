@@ -6,7 +6,7 @@
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Light Bootstrap Dashboard by Creative Tim</title>
+	<title>Bra World POS</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -26,6 +26,46 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
 
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDBGUjJUeQBWwkT8ssE0Q2SB-c692D5GWQ",
+        authDomain: "braworld-e1ab5.firebaseapp.com",
+        databaseURL: "https://braworld-e1ab5.firebaseio.com",
+        projectId: "braworld-e1ab5",
+        storageBucket: "braworld-e1ab5.appspot.com",
+        messagingSenderId: "475788712099"
+      };
+      firebase.initializeApp(config);
+
+       // var btnLogout = document.getElementById("btnLogout");
+        var user = firebase.auth().currentUser;
+        var email;
+
+        //Firebase real time listener
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              console.log(user.email);
+              if(user.email == "mario@gmail.com"){
+                document.getElementById("salesRep").value = "Mariotury";
+                // document.getElementById("email").value = user.email;
+                document.getElementById("account").innerHTML = "Mariotury";
+              }
+        }else{
+            console.log("Wrong user logged in....");
+            window.location.replace("http://localhost/bw/account/index.html");
+        }
+    });
+
+    function logout(){
+        firebase.auth().signOut();
+        window.location.replace("http://localhost/bw/account/index.html");}
+
+
+    </script>
+
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -33,7 +73,6 @@
     <script src="jquery-json-master/jquery-json-master/dist/jquery.json.min.js"></script>
     <script type="text/javascript" src="assets/js/table.js"></script>
     <script type="text/javascript" src="assets/js/form.js"></script>
-
     <script type="text/javascript">
 
     //  retrieving the price from the database
@@ -116,6 +155,12 @@
                             <p>SAMIYA</p>
                         </a>
                     </li>
+                    <!-- <li>
+                        <a onclick="logout();">
+                            <i class="pe-7s-note2"></i>
+                            <p>Logout</p>
+                        </a>
+                    </li> -->
 
                 </ul>
         	</div>
@@ -145,7 +190,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                <a href="">
-                                   Account
+                                   <p id="account"> Account </p>
                                 </a>
                             </li>
 
@@ -206,12 +251,14 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label onLoad="ShowTime()" >Sales Representative</label>
-                                                    <!-- drop down for the location -->          <select id="salesRep" name= "location"     class="form-control" type="text" required >
+                                                    <!-- drop down for the location -->     
+                                                    <!-- <select id="salesRep" name= "location"     class="form-control" type="text" required readonly>
                                                         <option value="">Selet representative</option>
                                                         <option value= "Monica" > Monica</option><option value= "Claudia" > Claudia</option> 
                                                         <option value= "Suzan" > Susan</option>
                                                         <option value= "Nadia" > Nadia</option>
-                                                    </select>
+                                                    </select> -->
+                                                    <input id="salesRep" type="text" class="form-control" placeholder="Sales Representative"  name="salesRep" label="salesRep" value="" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -335,12 +382,13 @@
 
                                 <!-- enter customer information -->
                                 <!-- product information -->
-                                <div class="row">
-                                    <div class="header">
-                                        <h4 class="title">Enter Customer Information</h4>
-                                    </div>
+                                <div class="header">
+                                    <h4 class="title">Enter Customer Information</h4>
+                                </div>
+
+                                <div class="row package-row">
                                     <!-- <div class="row"> -->
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label >First name</label>
                                             <input id="fname" type="text" class="form-control" placeholder="firstname" 
@@ -348,7 +396,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label >Last name</label>
                                             <input id="lname" type="text" class="form-control" placeholder="last name" 
@@ -365,7 +413,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label >Email</label>
                                             <input id="email" type="text" class="form-control" placeholder="email" 
@@ -373,7 +421,11 @@
                                             <!-- drop down for the location -->          
                                         </div>
                                     </div>
+                                </div>
 
+                                <br><br>
+
+                                <div class="row package-row">
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label >Customer Type</label>
@@ -382,11 +434,11 @@
                                                 <option value= "ExistingCustomer" > Existing Customer</option> 
                                                 <option value= "NewCustomer" > New Customer</option>
                                             </select>
-                                             <!-- drop down for the location -->                     
+                                             <!-- drop down for the location -->         
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <div class="form-group">
                                             <label >How did the customer get to know about us?</label>
                                             <select id="refferal" name= "refferal"     class="form-control" type="text" required >
@@ -426,7 +478,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label > Day?</label>
                                             <select id="day" name= "birthmonth"     class="form-control" type="text" required >
@@ -485,6 +537,7 @@
                         <p class="copyright pull-right">
                             &copy; 2016 <a href="http://www.Braworldug.com">Braworld</a>, made with love for a better web
                         </p>
+                        <a id='logout' class="pull-right btn btn-default" onclick="logout()" style="background:#31708f; color: white;">Logout</a>
                 </div>
             </footer>
     </div>
